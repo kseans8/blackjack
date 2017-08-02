@@ -1,7 +1,9 @@
-function Card(suit, rank){
+function Card(suit, rank) {
   var holder = '';
-  if ( rank === "J" || rank === "Q" || rank === "K" ) {
+  if ( rank === 'J' || rank === 'Q' || rank === 'K' ) {
     holder = 10;
+  } else if (rank === 'A') {
+    holder = 0;
   } else {
     holder = rank;
   }

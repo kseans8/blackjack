@@ -8,7 +8,6 @@ var Deck = function () {
   var newCards = function () {
     SUITS.forEach(function(suit) {
       RANKS.forEach(function (rank) {
-        console.log("Making new card: " + suit + " " + rank);
         cards.push(new Card(suit, rank));
       });
     });
@@ -20,12 +19,19 @@ var Deck = function () {
     });
   };
 
+  this.deal = function () {
+    return cards.pop();
+  };
+
   this.newHand = function () {
     newCards();
     shuffleDeck();
   };
 
-  newHand();
+  this.allCards = cards;
+
 };
 
-Deck();
+var deck = new Deck();
+deck.newHand();
+// console.log(deck.deal());
