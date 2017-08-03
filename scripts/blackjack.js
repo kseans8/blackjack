@@ -7,6 +7,38 @@ var deck = new Deck();
 var player = new Hand();
 var dealer = new Hand();
 
+var finishGame = function(player, dealer) {
+  var playerScore = player.calculateScore();
+  var dealerScore = dealer.calculateScore();
+
+  console.log("players hand is: ");
+  printResults(player);
+
+  console.log("dealers hand is: ");
+  printResults(dealer);
+
+  determineWinner(playerScore, dealerScore);
+};
+
+var printResults = function(hand) {
+  hand.cards.forEach(function(card) {
+    console.log('the ' + card.rank + ' of ' + card.suit);
+  });
+  console.log('with a score of: ' + hand.calculateScore());
+};
+
+var determineWinner = function(player, dealer) {
+  if (player === dealer) {
+    console.log("It's a tie!");
+  } else if (player > dealer) {
+    console.log('Player wins!');
+  } else if (player < dealer) {
+    console.log('Dealer wins! loser...');
+  } else {
+    console.log('well somebody is clearly cheating');
+  }
+};
+
 deck.newDeck();
 
 while (counter < 2) {
@@ -16,14 +48,5 @@ while (counter < 2) {
   dealer.getCard(card);
   counter += 1;
 }
-console.log("players hand is: ");
-player.cards.forEach(function(card) {
-  console.log('the ' + card.rank + ' of ' + card.suit);
-});
-console.log("players score is: " + player.calculateScore());
 
-console.log("dealers hand is: ");
-dealer.cards.forEach(function(card) {
-  console.log('the ' + card.rank + ' of ' + card.suit);
-});
-console.log("dealers score is: " + dealer.calculateScore());
+finishGame(player, dealer);
