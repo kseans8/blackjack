@@ -1,5 +1,5 @@
 var Card = require('./card.js');
-var Deck = function () {
+function Deck() {
   SUITS = [ 'Diamons', 'Clubs', 'Spades', 'Hearts' ];
   RANKS = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J','Q', 'K', 'A' ];
 
@@ -20,18 +20,16 @@ var Deck = function () {
   };
 
   this.deal = function () {
-    return cards.pop();
+    var card = this.allCards.pop();
+    return card;
   };
 
-  this.newHand = function () {
+  this.newDeck = function () {
     newCards();
     shuffleDeck();
   };
 
   this.allCards = cards;
+}
 
-};
-
-var deck = new Deck();
-deck.newHand();
-// console.log(deck.deal());
+module.exports = Deck;

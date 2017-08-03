@@ -1,16 +1,15 @@
 function Card(suit, rank) {
-  var holder = '';
+  var value = '';
+
   if ( rank === 'J' || rank === 'Q' || rank === 'K' ) {
-    holder = 10;
-  } else if (rank === 'A') {
-    holder = 0;
+    value = 10;
   } else {
-    holder = rank;
+    value = rank;
   }
 
   this.suit = suit;
   this.rank = rank;
-  this.value = holder;
+  this.value = value;
 }
 
 module.exports = Card;

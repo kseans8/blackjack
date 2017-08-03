@@ -1,36 +1,38 @@
 function Hand() {
-  var cards = [];
-  var handScore = 0;
-
   this.getCard = function (newCard) {
-    cards.push(newCard);
+    this.cards.push(newCard);
   };
 
   this.calculateScore = function () {
-    cards.forEach(function (card) {
-      var score = 0,
-          counter = 0;
+    var counter = 0;
+    var score = 0;
 
+    this.cards.forEach(function (card) {
       if (card.rank === 'A') {
         counter += 1;
       } else {
-        handScore += card.value;
+        score += card.value;
       }
-
-      while (counter !== 0) {
-        sum += aceCalculation(card);
-        counter -= 1;
-      }
-
     });
 
-    var aceCalculation = function (ace) {
-      if (handScore < 11) {
+    while (counter !== 0) {
+      score += aceCalculation();
+      counter -= 1;
+    }
+
+    function aceCalculation() {
+      if (score < 11) {
         return 11;
       } else {
         return 1;
       }
-    };
+    }
+    this.handScore = score;
+    return score;
   };
 
+  this.cards = [];
+  this.handScore = 0;
 }
+
+module.exports = Hand;
