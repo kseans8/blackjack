@@ -1,7 +1,7 @@
 var Card = require('./card.js');
 function Deck() {
   SUITS = [ 'Diamons', 'Clubs', 'Spades', 'Hearts' ];
-  RANKS = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J','Q', 'K', 'A' ];
+  RANKS = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack','Queen', 'King', 'Ace' ];
 
   var cards = [];
 

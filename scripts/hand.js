@@ -8,7 +8,7 @@ function Hand() {
     var score = 0;
 
     this.cards.forEach(function (card) {
-      if (card.rank === 'A') {
+      if (card.rank === 'Ace') {
         counter += 1;
       } else {
         score += card.value;
@@ -27,12 +27,10 @@ function Hand() {
         return 1;
       }
     }
-    this.handScore = score;
     return score;
   };
 
   this.cards = [];
-  this.handScore = 0;
 }
 
 module.exports = Hand;

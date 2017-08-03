@@ -1,7 +1,7 @@
 function Card(suit, rank) {
   var value = '';
 
-  if ( rank === 'J' || rank === 'Q' || rank === 'K' ) {
+  if ( rank === 'Jack' || rank === 'Queen' || rank === 'King' ) {
     value = 10;
   } else {
     value = rank;

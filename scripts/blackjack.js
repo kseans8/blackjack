@@ -7,6 +7,21 @@ var deck = new Deck();
 var player = new Hand();
 var dealer = new Hand();
 
+var keepHitting = function(hand) {
+  var underSeventeen = houseLogic(hand);
+
+  while(underSeventeen) {
+    hand.getCard(deck.deal());
+    underSeventeen = houseLogic(hand);
+  }
+};
+
+var houseLogic = function (hand) {
+  if (hand.calculateScore() < 17) {
+    return true;
+  }
+};
+
 var finishGame = function(player, dealer) {
   var playerScore = player.calculateScore();
   var dealerScore = dealer.calculateScore();
@@ -28,7 +43,11 @@ var printResults = function(hand) {
 };
 
 var determineWinner = function(player, dealer) {
-  if (player === dealer) {
+  if (player > 21) {
+    console.log('Bust! loser...');
+  } else if (dealer > 21) {
+    console.log('Dealer bust! Player wins!');
+  } else if (player === dealer) {
     console.log("It's a tie!");
   } else if (player > dealer) {
     console.log('Player wins!');
@@ -42,11 +61,17 @@ var determineWinner = function(player, dealer) {
 deck.newDeck();
 
 while (counter < 2) {
-  var card = deck.deal();
-  player.getCard(card);
-  card = deck.deal();
-  dealer.getCard(card);
+  player.getCard(deck.deal());
+  dealer.getCard(deck.deal());
   counter += 1;
+}
+
+keepHitting(player);
+
+var playerIsNotBusted = (player.calculateScore() <= 21);
+
+if (playerIsNotBusted) {
+  keepHitting(dealer);
 }
 
 finishGame(player, dealer);
