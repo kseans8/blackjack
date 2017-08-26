@@ -6,6 +6,7 @@ function Deck() {
   var cards = [];
 
   var newCards = function () {
+    cards.splice(0,cards.length);
     SUITS.forEach(function(suit) {
       RANKS.forEach(function (rank) {
         cards.push(new Card(suit, rank));
