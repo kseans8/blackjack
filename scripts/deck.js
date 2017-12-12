@@ -1,6 +1,6 @@
 var Card = require('./card.js');
 function Deck() {
-  SUITS = [ 'Diamons', 'Clubs', 'Spades', 'Hearts' ];
+  SUITS = [ 'diamons', 'clubs', 'spades', 'hearts' ];
   RANKS = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack','Queen', 'King', 'Ace' ];
 
   var cards = [];

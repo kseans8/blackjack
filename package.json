@@ -1,0 +1,30 @@
+{
+  "name": "BlackJack!",
+  "version": "1.0.0",
+  "description": "it helps my gambling",
+  "main": "scripts/blackjack.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kseans8/blackjack.git"
+  },
+  "author": "kseans8 <kseans8@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kseans8/blackjack/issues"
+  },
+  "homepage": "https://github.com/kseans8/blackjack#readme",
+  "scripts": {
+    "compile": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "express": "^4.16.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-middleware": "^1.12.2"
+  }
+}
