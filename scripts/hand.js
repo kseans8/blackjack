@@ -8,7 +8,7 @@ function Hand() {
     var score = 0;
 
     this.cards.forEach(function (card) {
-      if (card.rank === 'Ace') {
+      if (card.rank === 'A') {
         counter += 1;
       } else {
         score += card.value;

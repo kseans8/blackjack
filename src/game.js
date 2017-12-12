@@ -1,4 +1,5 @@
 import React from 'react';
+import CardComponent from './components/cardComponent'
 
 var Card = require('../scripts/card.js');
 var Deck = require('../scripts/deck.js');
@@ -7,17 +8,6 @@ var Hand = require('../scripts/hand.js');
 class Game extends React.Component {
   constructor() {
     super();
-    this.state = {
-      deck: [],
-      player: [],
-      dealer: [],
-      wins: 0,
-      losses: 0
-    }
-    
-  }
-
-  componentDidMount() {
     var deck = new Deck();
     var player = new Hand();
     var dealer = new Hand();
@@ -28,19 +18,39 @@ class Game extends React.Component {
     dealer.getCard(deck.deal());
     dealer.getCard(deck.deal());
 
-    this.setState({
+    this.state = {
       deck: deck,
       player: player,
-      dealer: dealer
-    })
+      dealer: dealer,
+      wins: 0,
+      losses: 0
+    }
 
   }
 
   render() {
-    debugger
+    let playersCards = this.state.player.cards.map((card, index) => {
+      console.log(card)
+      return(
+        <CardComponent
+          key={index}
+          card={card}
+        />
+    )
+    })
+    let dealersCards = this.state.dealer.cards.map((card, index) => {
+      console.log(card)
+      return(
+        <CardComponent
+          key={index}
+          card={card}
+        />
+    )
+    })
     return(
       <div>
-        inside of game
+        {playersCards}
+        {dealersCards}
       </div>
     )
   }
