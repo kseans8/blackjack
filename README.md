@@ -9,8 +9,11 @@ Setup
 npm install
 ```
 
-Compile
+Usage
 ---
+
+Start the development server with this command:
+
 ```
-npm run compile
+npm start
 ```
