@@ -22,6 +22,8 @@ class Game extends React.Component {
       deck: deck,
       player: player,
       dealer: dealer,
+      playing: true,
+      score: 0,
       wins: 0,
       losses: 0
     }
@@ -49,8 +51,23 @@ class Game extends React.Component {
     })
     return(
       <div>
-        {playersCards}
-        {dealersCards}
+        <div className="table">
+          <div className="dealers-hand">
+            {dealersCards}
+          </div>
+          <div className="players-hand">
+            {playersCards}
+          </div>
+        </div>
+        <div className="game-details">
+          <div className="record">
+            <p>Wins: {this.state.wins}</p>
+            <p>Losses: {this.state.losses}</p>
+          </div>
+          <div className="actionButtons">
+
+          </div>
+        </div>
       </div>
     )
   }
