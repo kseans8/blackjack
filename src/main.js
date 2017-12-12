@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Counter from './Counter';
+import Game from './game'
 
-console.log("Hello World!")
 document.addEventListener('DOMContentLoaded', function() {
   ReactDOM.render(
-    React.createElement(Counter),
+    React.createElement(Game),
     document.getElementById('mount')
   );
 });

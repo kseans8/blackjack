@@ -1,14 +1,14 @@
 var Card = require('./card.js');
 function Deck() {
-  SUITS = [ 'diamons', 'clubs', 'spades', 'hearts' ];
-  RANKS = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack','Queen', 'King', 'Ace' ];
+  var suits = [ 'diamons', 'clubs', 'spades', 'hearts' ];
+  var ranks = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack','Queen', 'King', 'Ace' ];
 
   var cards = [];
 
   var newCards = function () {
     cards.splice(0,cards.length);
-    SUITS.forEach(function(suit) {
-      RANKS.forEach(function (rank) {
+    suits.forEach(function(suit) {
+      ranks.forEach(function (rank) {
         cards.push(new Card(suit, rank));
       });
     });
