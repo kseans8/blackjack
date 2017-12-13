@@ -14,8 +14,8 @@ class Game extends React.Component {
 
     deck.newDeck();
     player.getCard(deck.deal());
-    player.getCard(deck.deal());
     dealer.getCard(deck.deal());
+    player.getCard(deck.deal());
     dealer.getCard(deck.deal());
 
     this.state = {
@@ -23,11 +23,55 @@ class Game extends React.Component {
       player: player,
       dealer: dealer,
       playing: true,
-      score: 0,
+      score: player.calculateScore(),
       wins: 0,
       losses: 0
     }
+    this.hitMe = this.hitMe.bind(this)
+    this.callStand = this.callStand.bind(this)
+    this.dealNewGame = this.dealNewGame.bind(this)
+  }
 
+  hitMe() {
+    let card = this.state.deck.deal()
+    this.state.player.getCard(card)
+    let newScore = this.state.player.calculateScore()
+    this.setState({
+      score: newScore
+    })
+    if (newScore > 20) {
+      console.log("over 20")
+      this.setState({
+        playing: false
+      })
+    }
+    console.log(card)
+  }
+
+  callStand() {
+    this.setState({
+      playing: false
+    })
+  }
+
+  dealNewGame() {
+    var deck = new Deck();
+    var player = new Hand();
+    var dealer = new Hand();
+
+    deck.newDeck();
+    player.getCard(deck.deal());
+    dealer.getCard(deck.deal());
+    player.getCard(deck.deal());
+    dealer.getCard(deck.deal());
+
+    this.setState({
+      deck: deck,
+      player: player,
+      dealer: dealer,
+      playing: true,
+      score: player.calculateScore(),
+    })
   }
 
   render() {
@@ -75,9 +119,12 @@ class Game extends React.Component {
         </div>
         <div className="game-details">
           <div className="actionButtons">
-
+            { this.state.playing ? <button onClick={this.hitMe}>Hit Me</button> : null }
+            { this.state.playing ? <button onClick={this.callStand}>Stand</button> : null }
+            { this.state.playing ? null : <button onClick={this.dealNewGame}>Deal</button> }
           </div>
           <div className="record">
+            <p>Score: {this.state.score}</p>
             <p>Wins: {this.state.wins}</p>
             <p>Losses: {this.state.losses}</p>
           </div>
