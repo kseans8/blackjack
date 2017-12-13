@@ -37,17 +37,31 @@ class Game extends React.Component {
         <CardComponent
           key={index}
           card={card}
+          show={true}
         />
     )
     })
     let dealersCards = this.state.dealer.cards.map((card, index) => {
-      console.log(card)
-      return(
-        <CardComponent
-          key={index}
-          card={card}
-        />
-    )
+      if (this.state.playing && index > 0) {
+        console.log(card)
+        return(
+          <CardComponent
+            key={index}
+            card={card}
+            show={false}
+          />
+        )
+      } else {
+        console.log(card)
+        return(
+          <CardComponent
+            key={index}
+            card={card}
+            show={true}
+          />
+        )
+
+      }
     })
     return(
       <div>
@@ -60,12 +74,12 @@ class Game extends React.Component {
           </div>
         </div>
         <div className="game-details">
+          <div className="actionButtons">
+
+          </div>
           <div className="record">
             <p>Wins: {this.state.wins}</p>
             <p>Losses: {this.state.losses}</p>
-          </div>
-          <div className="actionButtons">
-
           </div>
         </div>
       </div>

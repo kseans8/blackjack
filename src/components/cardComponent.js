@@ -5,16 +5,25 @@ const CardComponent = (props) => {
   if (props.card.suit === "♥" || props.card.suit === "♦") {
     cardClassName = `red card`
   }
-  return(
-    <div className={cardClassName}>
-      <div className="rank">
-        {props.card.rank}
+
+  if (props.show === true){
+    return(
+      <div className={cardClassName}>
+        <div className="rank">
+          {props.card.rank}
+        </div>
+        <div className="suit">
+          {props.card.suit}
+        </div>
       </div>
-      <div className="suit">
-        {props.card.suit}
+    )
+  } else {
+    return(
+      <div className="card">
+        <img className="card-back" src="http://chetart.com/blog/wp-content/uploads/2012/05/playing-card-back.jpg"/>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default CardComponent;
