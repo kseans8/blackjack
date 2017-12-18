@@ -8,9 +8,9 @@ var Hand = require('../scripts/hand.js');
 class Game extends React.Component {
   constructor() {
     super();
-    var deck = new Deck();
-    var player = new Hand();
-    var dealer = new Hand();
+    let deck = new Deck();
+    let player = new Hand();
+    let dealer = new Hand();
 
     deck.newDeck();
     player.getCard(deck.deal());
@@ -25,11 +25,13 @@ class Game extends React.Component {
       playing: true,
       score: player.calculateScore(),
       wins: 0,
-      losses: 0
+      losses: 0,
+      ties: 0
     }
     this.hitMe = this.hitMe.bind(this)
     this.callStand = this.callStand.bind(this)
     this.dealNewGame = this.dealNewGame.bind(this)
+    this.determineWinner = this.determineWinner.bind(this)
   }
 
   hitMe() {
@@ -40,24 +42,58 @@ class Game extends React.Component {
       score: newScore
     })
     if (newScore > 20) {
-      console.log("over 20")
-      this.setState({
-        playing: false
-      })
+      this.callStand()
     }
-    console.log(card)
   }
 
   callStand() {
+    let deck = this.state.deck;
+    let player = this.state.player;
+    let dealer = this.state.dealer;
+    while (dealer.calculateScore() < 17) {
+      dealer.getCard(deck.deal())
+    }
     this.setState({
+      deck: deck,
+      dealer: dealer,
       playing: false
     })
+    this.determineWinner()
+  }
+
+  determineWinner() {
+    let player = this.state.player
+    let dealer = this.state.dealer
+
+    if (player.calculateScore() > 21 || dealer.calculateScore() === 21){
+      let score = this.state.losses + 1;
+      this.setState({
+        losses: score
+      })
+    } else if (dealer.calculateScore() > 21 || player.calculateScore() === 21 || player.calculateScore() > dealer.calculateScore()){
+      let score = this.state.wins + 1;
+      this.setState({
+        wins: score
+      })
+    } else if (dealer.calculateScore() > player.calculateScore()){
+      let score = this.state.losses + 1;
+      this.setState({
+        losses: score
+      })
+    } else if (dealer.calculateScore() === player.calculateScore()){
+      let score = this.state.ties + 1;
+      this.setState({
+        ties: score
+      })
+    } else {
+      console.log("oh boy, something bad happened")
+    }
   }
 
   dealNewGame() {
-    var deck = new Deck();
-    var player = new Hand();
-    var dealer = new Hand();
+    let deck = new Deck();
+    let player = new Hand();
+    let dealer = new Hand();
 
     deck.newDeck();
     player.getCard(deck.deal());
@@ -76,7 +112,6 @@ class Game extends React.Component {
 
   render() {
     let playersCards = this.state.player.cards.map((card, index) => {
-      console.log(card)
       return(
         <CardComponent
           key={index}
@@ -87,7 +122,6 @@ class Game extends React.Component {
     })
     let dealersCards = this.state.dealer.cards.map((card, index) => {
       if (this.state.playing && index > 0) {
-        console.log(card)
         return(
           <CardComponent
             key={index}
@@ -96,7 +130,6 @@ class Game extends React.Component {
           />
         )
       } else {
-        console.log(card)
         return(
           <CardComponent
             key={index}
@@ -107,6 +140,12 @@ class Game extends React.Component {
 
       }
     })
+    let dealerScore = <p>Dealers Score: {this.state.dealer.cards[0].value}</p>
+    if (!this.state.playing) {
+      dealerScore = (
+        <p>Dealers Score: {this.state.dealer.calculateScore()}</p>
+      )
+    }
     return(
       <div>
         <div className="table">
@@ -125,8 +164,10 @@ class Game extends React.Component {
           </div>
           <div className="record">
             <p>Score: {this.state.score}</p>
+            {dealerScore}
             <p>Wins: {this.state.wins}</p>
             <p>Losses: {this.state.losses}</p>
+            <p>Ties: {this.state.ties}</p>
           </div>
         </div>
       </div>
