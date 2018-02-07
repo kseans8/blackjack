@@ -23,10 +23,6 @@ class Game extends React.Component {
       player: player,
       dealer: dealer,
       playing: true,
-      score: player.calculateScore(),
-      wins: 0,
-      losses: 0,
-      ties: 0
     }
     this.hitMe = this.hitMe.bind(this)
     this.callStand = this.callStand.bind(this)
@@ -66,34 +62,28 @@ class Game extends React.Component {
     let dealer = this.state.dealer
 
     if (player.calculateScore() > 21 || dealer.calculateScore() === 21){
-      let score = this.state.losses + 1;
-      this.setState({
-        losses: score
-      })
+      player.losses += 1;
     } else if (dealer.calculateScore() > 21 || player.calculateScore() === 21 || player.calculateScore() > dealer.calculateScore()){
-      let score = this.state.wins + 1;
-      this.setState({
-        wins: score
-      })
+      player.wins += 1;
     } else if (dealer.calculateScore() > player.calculateScore()){
-      let score = this.state.losses + 1;
-      this.setState({
-        losses: score
-      })
+      player.losses += 1;
     } else if (dealer.calculateScore() === player.calculateScore()){
-      let score = this.state.ties + 1;
-      this.setState({
-        ties: score
-      })
+      player.ties += 1;
     } else {
       console.log("oh boy, something bad happened")
     }
+    this.setState({
+      player: player
+    })
   }
 
   dealNewGame() {
     let deck = new Deck();
-    let player = new Hand();
-    let dealer = new Hand();
+    let player = this.state.player;
+    let dealer = this.state.dealer;
+
+    player.fold();
+    dealer.fold();
 
     deck.newDeck();
     player.getCard(deck.deal());
@@ -163,11 +153,12 @@ class Game extends React.Component {
             { this.state.playing ? null : <button onClick={this.dealNewGame}>Deal</button> }
           </div>
           <div className="record">
-            <p>Score: {this.state.score}</p>
+            <p>Your Money: ${this.state.player.wallet}</p>
+            <p>Score: {this.state.player.calculateScore()}</p>
             {dealerScore}
-            <p>Wins: {this.state.wins}</p>
-            <p>Losses: {this.state.losses}</p>
-            <p>Ties: {this.state.ties}</p>
+            <p>Wins: {this.state.player.wins}</p>
+            <p>Losses: {this.state.player.losses}</p>
+            <p>Ties: {this.state.player.ties}</p>
           </div>
         </div>
       </div>
