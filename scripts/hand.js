@@ -30,6 +30,14 @@ function Hand() {
     return score;
   };
 
+  this.fold = function() {
+    this.cards = [];
+  }
+
+  this.wallet = 200;
+  this.wins = 0;
+  this.losses = 0;
+  this.ties = 0;
   this.cards = [];
 }
 
