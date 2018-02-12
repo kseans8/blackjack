@@ -29,13 +29,14 @@ class Game extends React.Component {
     this.gambleChange = this.gambleChange.bind(this);
     this.sellSoul = this.sellSoul.bind(this);
     this.buyBackSoul = this.buyBackSoul.bind(this);
+    this.enterPressed = this.enterPressed.bind(this);
   }
 
   startNewGame(){
     this.setState({
       stage: 'wagering',
-      wager: 1,
-      properWager: true
+      wager: '',
+      properWager: false
     })
   }
 
@@ -55,6 +56,9 @@ class Game extends React.Component {
       this.setState({
         properWager: false
       })
+    }
+    if (e.which === 13 || e.keyCode === 13) {
+      this.dealNewGame();
     }
   }
 
@@ -207,9 +211,11 @@ class Game extends React.Component {
       } else {
         wageringElement = <div>
           <input
+            autoFocus
             type="text"
             value={this.state.wager}
             onChange={this.gambleChange}
+            onKeyPress={this.gambleChange}
             />
           <button onClick={this.dealNewGame} disabled={!this.state.properWager}>gamble</button>
         </div>
