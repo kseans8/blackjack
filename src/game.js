@@ -17,7 +17,7 @@ class Game extends React.Component {
       player: player,
       dealer: dealer,
       stage: 'pregame',
-      wager: 0,
+      wager: '',
       properWager: false,
       lives: 0,
     }
@@ -29,7 +29,7 @@ class Game extends React.Component {
     this.gambleChange = this.gambleChange.bind(this);
     this.sellSoul = this.sellSoul.bind(this);
     this.buyBackSoul = this.buyBackSoul.bind(this);
-    this.enterPressed = this.enterPressed.bind(this);
+    this.doubleDown = this.doubleDown.bind(this);
   }
 
   startNewGame(){
@@ -43,7 +43,7 @@ class Game extends React.Component {
   gambleChange(e){
     if (!isNaN(e.target.value) && e.target.value <= this.state.player.wallet) {
       this.setState({
-        wager: e.target.value
+        wager: Number(e.target.value)
       })
     } else {
       e.target.value = this.state.wager
@@ -88,12 +88,14 @@ class Game extends React.Component {
   }
 
   hitMe() {
-    let card = this.state.deck.deal();
+    let deck = this.state.deck;
+    let card = deck.deal();
     let player = this.state.player;
 
     player.getCard(card);
 
     this.setState({
+      deck: deck,
       player: player
     })
 
@@ -123,18 +125,18 @@ class Game extends React.Component {
 
     if (player.calculateScore() > 21){
       player.losses += 1;
-      player.wallet = parseFloat(player.wallet) - parseFloat(this.state.wager);
+      player.wallet = Math.floor(parseFloat(player.wallet) - parseFloat(this.state.wager));
     } else if (dealer.calculateScore() === player.calculateScore()){
       player.ties += 1;
     } else if (player.calculateScore() === 21) {
       player.wins += 1;
-      player.wallet = parseFloat(player.wallet) + (parseFloat(this.state.wager) * (3/2)); // Winnah!!!
+      player.wallet = Math.floor(parseFloat(player.wallet) + (parseFloat(this.state.wager) * (3/2))); // Winnah!!!
     } else if (dealer.calculateScore() > 21 || player.calculateScore() > dealer.calculateScore()){
       player.wins += 1;
-      player.wallet = parseFloat(player.wallet) + parseFloat(this.state.wager); // Winnah!!!
+      player.wallet = Math.floor(parseFloat(player.wallet) + parseFloat(this.state.wager));
     } else if (dealer.calculateScore() > player.calculateScore()){
       player.losses += 1;
-      player.wallet = parseFloat(player.wallet) - parseFloat(this.state.wager);
+      player.wallet = Math.floor(parseFloat(player.wallet) - parseFloat(this.state.wager));
     } else {
       console.log("oh boy, something bad happened")
     }
@@ -161,6 +163,22 @@ class Game extends React.Component {
     this.setState({
       player: player,
       lives: lives
+    })
+  }
+
+  doubleDown() {
+    let deck = this.state.deck;
+    let card = deck.deal();
+    let player = this.state.player;
+    let wager = this.state.wager * 2;
+
+    player.getCard(card);
+    this.setState({
+      player: player,
+      wager: wager,
+      deck: deck
+    }, () => {
+      this.callStand();
     })
   }
 
@@ -237,6 +255,7 @@ class Game extends React.Component {
             {wageringElement}
             { this.state.stage === 'playing'  ? <button onClick={this.hitMe}>Hit Me</button> : null }
             { this.state.stage === 'playing' ? <button onClick={this.callStand}>Stand</button> : null }
+            { this.state.stage === 'playing' && this.state.player.cards.length === 2 && (this.state.wager * 2) < this.state.player.wallet ? <button onClick={this.doubleDown}>Double Down</button> : null }
             { this.state.stage === 'postgame' || this.state.stage === 'pregame' ? <button onClick={this.startNewGame}>Start New Game</button> : null }
           </div>
           <div className="record">
