@@ -30,6 +30,7 @@ class Game extends React.Component {
     this.sellSoul = this.sellSoul.bind(this);
     this.buyBackSoul = this.buyBackSoul.bind(this);
     this.doubleDown = this.doubleDown.bind(this);
+    this.callSplit = this.callSplit.bind(this);
   }
 
   startNewGame(){
@@ -182,6 +183,22 @@ class Game extends React.Component {
     })
   }
 
+  callSplit() {
+    let player = this.state.player;
+    let deck = this.state.deck;
+    let playerSecondHand = new Hand();
+
+    playerSecondHand.getCard(player.split());
+    player.getCard(deck.deal());
+    playerSecondHand.getCard(deck.deal());
+
+    this.setState({
+      player: player,
+      deck: deck,
+      playerSecondHand: playerSecondHand
+    })
+  }
+
   render() {
     let playersCards = this.state.player.cards.map((card, index) => {
       if (this.state.stage === 'playing' || this.state.stage === 'postgame') {
@@ -194,6 +211,20 @@ class Game extends React.Component {
         )
       }
     })
+    let playersSecondCards = <div></div>
+    if (this.state.playerSecondHand) {
+      playersSecondCards = this.state.playerSecondHand.cards.map((card, index) => {
+        if (this.state.stage === 'playing' || this.state.stage === 'postgame') {
+          return(
+            <CardComponent
+              key={index}
+              card={card}
+              show={true}
+              />
+          )
+        }
+      })
+    }
     let dealersCards = this.state.dealer.cards.map((card, index) => {
       if (this.state.stage === 'playing' || this.state.stage === 'postgame') {
         if (this.state.stage == 'playing' && index > 0) {
@@ -249,6 +280,13 @@ class Game extends React.Component {
           <div className="players-hand">
             {playersCards}
           </div>
+          { this.state.playerSecondHand ?
+            <div className="players-second-hand">
+              {playersSecondCards}
+            </div>
+            :
+            null
+          }
         </div>
         <div className="game-details">
           <div className="actionButtons">
@@ -256,6 +294,7 @@ class Game extends React.Component {
             { this.state.stage === 'playing'  ? <button onClick={this.hitMe}>Hit Me</button> : null }
             { this.state.stage === 'playing' ? <button onClick={this.callStand}>Stand</button> : null }
             { this.state.stage === 'playing' && this.state.player.cards.length === 2 && (this.state.wager * 2) <= this.state.player.wallet ? <button onClick={this.doubleDown}>Double Down</button> : null }
+            { this.state.stage === 'playing' && this.state.player.cards[0].value === this.state.player.cards[1].value ? <button onClick={this.callSplit}>Split</button> : null }
             { this.state.stage === 'postgame' || this.state.stage === 'pregame' ? <button onClick={this.startNewGame}>Start New Game</button> : null }
           </div>
           <div className="record">

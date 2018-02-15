@@ -15,9 +15,15 @@
   margin-left: 100
 }
 
-.players-hand {
+.players-hand, .players-second-hand {
   position: absolute;
   bottom: 0;
+}
+
+.players-second-hand {
+  position: absolute;
+  margin-right: 100;
+  right: 0px;
 }
 
 .card {

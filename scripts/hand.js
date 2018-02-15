@@ -34,6 +34,12 @@ function Hand() {
     this.cards = [];
   }
 
+  this.split = function() {
+    if (this.cards.length === 2) {
+      return this.cards.splice(1,1)[0]
+    }
+  }
+
   this.wallet = 200;
   this.wins = 0;
   this.losses = 0;
