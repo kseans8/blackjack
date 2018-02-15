@@ -255,7 +255,7 @@ class Game extends React.Component {
             {wageringElement}
             { this.state.stage === 'playing'  ? <button onClick={this.hitMe}>Hit Me</button> : null }
             { this.state.stage === 'playing' ? <button onClick={this.callStand}>Stand</button> : null }
-            { this.state.stage === 'playing' && this.state.player.cards.length === 2 && (this.state.wager * 2) < this.state.player.wallet ? <button onClick={this.doubleDown}>Double Down</button> : null }
+            { this.state.stage === 'playing' && this.state.player.cards.length === 2 && (this.state.wager * 2) <= this.state.player.wallet ? <button onClick={this.doubleDown}>Double Down</button> : null }
             { this.state.stage === 'postgame' || this.state.stage === 'pregame' ? <button onClick={this.startNewGame}>Start New Game</button> : null }
           </div>
           <div className="record">
